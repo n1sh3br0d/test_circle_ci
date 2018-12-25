@@ -36,6 +36,7 @@ jobs:
       # run tests!
       - run: npm run test
       - setup_remote_docker
+      - run: sudo echo "Hello world"
 
       - deploy:
           name: Build and push Docker image

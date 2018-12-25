@@ -35,14 +35,20 @@ jobs:
 
       # run tests!
       - run: npm run test
+
+      - run:
+          name: Allow non-https connections
+          command: sudo echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json
       - setup_remote_docker
       - run: sudo echo "Hello world"
 
       - deploy:
           name: Build and push Docker image
           command: |
-            TAG="0.1.${COMPTIA_CDS_BUILD_NUM}"
-            docker build -t "18.212.175.128:$TAG" .
-            docker push "18.212.175.128:$TAG"
+            TAG="COMPTIA_CDS.${CIRCLE_BUILD_NUM}"
+            docker build -t $REGISTRY_URL:$TAG .
+            docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+            docker push $REGISTRY_URL:$TAG
+
 
 

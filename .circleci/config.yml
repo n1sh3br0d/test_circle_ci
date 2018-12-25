@@ -32,22 +32,22 @@ jobs:
 
       # run tests!
       - run: npm run test
-      - run: sudo apt-get install apt-utils -y
-      - run:
-          name: Install Docker client
-          command: |
-            set -x
-            VER="17.03.0-ce"
-            curl -fsSL https://get.docker.com -o get-docker.sh
-            sudo sh get-docker.sh
-      # This should go into custom primary image, here's only for the sake of explanation
-      - run:
-          name: Install Docker Compose
-          command: |
-            set -x
-            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose
-            sudo mv /tmp/docker-compose /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
+      # - run: sudo apt-get install apt-utils -y
+      # - run:
+      #     name: Install Docker client
+      #     command: |
+      #       set -x
+      #       VER="17.03.0-ce"
+      #       curl -fsSL https://get.docker.com -o get-docker.sh
+      #       sudo sh get-docker.sh
+      # # This should go into custom primary image, here's only for the sake of explanation
+      # - run:
+      #     name: Install Docker Compose
+      #     command: |
+      #       set -x
+      #       curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose
+      #       sudo mv /tmp/docker-compose /usr/local/bin/docker-compose
+      #       sudo chmod +x /usr/local/bin/docker-compose
 
       - run: touch daemon.json
       - run: echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> daemon.json
@@ -55,7 +55,7 @@ jobs:
       #- run: sudo usermod -aG docker $USER
       #- run: sudo apk add docker -y &&
       - setup_remote_docker
-      - run: sudo service --status-all
+      # - run: sudo service --status-all
       - run: sudo echo "Hello world"
 
       - deploy:
@@ -65,7 +65,7 @@ jobs:
             echo $DOCKER_AMAZON_CERT >> comptia.cert && echo $DOCKER_AMAZON_KEY >> comptia.key
             TAG="0.0.${CIRCLE_BUILD_NUM}"
             sudo docker build -t $REGISTRY_URL/$COMPTIA_PROJECT:$TAG .
-            sudo docker login --tlscert ./comptia.cert --tlskey ./comptia.key --tlsverify=false -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
+            sudo docker login --tlscert ./comptia.cert --tlskey ./comptia.key -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
             sudo docker push $REGISTRY_URL/$COMPTIA_PROJECT:$TAG
-        #
+
 

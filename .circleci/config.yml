@@ -35,5 +35,13 @@ jobs:
 
       # run tests!
       - run: npm run test
+      - setup_remote_docker
+
+      - deploy:
+          name: Build and push Docker image
+          command: |
+            TAG="0.1.${COMPTIA_CDS_BUILD_NUM}"
+            docker build -t "18.212.175.128:$TAG" .
+            docker push "18.212.175.128:$TAG"
 
 

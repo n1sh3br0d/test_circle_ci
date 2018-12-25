@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: node:10-alpine
+      - image: circleci/node:10
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -36,8 +36,8 @@ jobs:
       - run: echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> daemon.json
       - run: sudo mkdir /etc/docker && sudo cp ./daemon.json /etc/docker/
       #- run: sudo usermod -aG docker $USER
-      - run: sudo apk add docker -y && sudo service docker.io start
-      #- setup_remote_docker
+      #- run: sudo apk add docker -y && sudo service docker.io start
+      - setup_remote_docker
       - run: sudo echo "Hello world"
 
       - deploy:

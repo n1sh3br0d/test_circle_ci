@@ -36,7 +36,7 @@ jobs:
       - run: echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> daemon.json
       - run: sudo mkdir /etc/docker && sudo cp ./daemon.json /etc/docker/
       #- run: sudo usermod -aG docker $USER
-      - run: sudo apt-get install docker -y && sudo systemctl start docker
+      - run: sudo apt-get install docker -y && sudo service docker start
       #- setup_remote_docker
       - run: sudo echo "Hello world"
 

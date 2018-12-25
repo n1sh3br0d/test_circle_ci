@@ -55,7 +55,7 @@ jobs:
       #- run: sudo usermod -aG docker $USER
       #- run: sudo apk add docker -y &&
       #- setup_remote_docker
-      - run: sudo ls /etc/init.d/
+      - run: sudo service --status-all
       - run: sudo echo "Hello world"
 
       - deploy:

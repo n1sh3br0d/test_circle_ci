@@ -33,7 +33,7 @@ jobs:
       # run tests!
       - run: npm run test
       - run: touch daemon.json
-      - run: echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json
+      - run: echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> daemon.json
       - run: sudo mkdir /etc/docker && sudo cp ./daemon.json /etc/docker/
       - run: sudo usermod -aG docker $USER
       - run: sudo apt-get install docker -y && sudo systemctl start docker

@@ -32,9 +32,11 @@ jobs:
 
       # run tests!
       - run: npm run test
-      - run:
-          name: Allow non-https connections
-          command: sudo su && apt-get install docker -y && mkdir /etc/docker/ && touch /etc/docker/daemon.json && echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json && systemctl start docker
+      - run: touch daemon.json
+      - run: echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json
+      - run: sudo mkdir /etc/docker && sudo cp ./daemon.json /etc/docker/
+      - run: sudo usermod -aG docker $USER
+      - run: sudo apt-get install docker -y && sudo systemctl start docker
       #- setup_remote_docker
       - run: sudo echo "Hello world"
 

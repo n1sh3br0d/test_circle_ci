@@ -37,7 +37,7 @@ jobs:
       - run: sudo mkdir /etc/docker && sudo cp ./daemon.json /etc/docker/
       #- run: sudo usermod -aG docker $USER
       - run: sudo apt-get install apt-utils -f -y
-      - run: sudo apt-get install docker -f -y && sudo service docker.io start
+      - run: sudo apt-get install docker docker-engine docker.io -f -y && sudo service docker.io start
       #- setup_remote_docker
       - run: sudo echo "Hello world"
 

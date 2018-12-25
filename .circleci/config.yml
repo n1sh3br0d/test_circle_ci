@@ -65,7 +65,7 @@ jobs:
             echo $DOCKER_AMAZON_CERT >> comptia.cert && echo $DOCKER_AMAZON_KEY >> comptia.key
             TAG="0.0.${CIRCLE_BUILD_NUM}"
             docker build -t $REGISTRY_URL/$COMPTIA_PROJECT:$TAG .
-            docker login --tlscert ./comptia.cert --tlskey ./comptia.key -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
+            DOCKER_TLS_VERIFY=0 docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
             docker push $REGISTRY_URL/$COMPTIA_PROJECT:$TAG
-
+# --tlscert ./comptia.cert --tlskey ./comptia.key
 

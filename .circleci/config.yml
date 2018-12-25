@@ -54,7 +54,7 @@ jobs:
       - run: sudo mkdir /etc/docker && sudo cp ./daemon.json /etc/docker/
       #- run: sudo usermod -aG docker $USER
       #- run: sudo apk add docker -y &&
-      #- setup_remote_docker
+      - setup_remote_docker
       - run: sudo service --status-all
       - run: sudo echo "Hello world"
 

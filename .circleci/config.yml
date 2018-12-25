@@ -7,15 +7,12 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8
+      - image: node:10-jessie
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
     steps:
       - checkout
 
@@ -35,20 +32,19 @@ jobs:
 
       # run tests!
       - run: npm run test
-      - run: echo $USER
       - run:
           name: Allow non-https connections
-          command: sudo mkdir /etc/docker && sudo touch /etc/docker/daemon.json && sudo echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json
-      - setup_remote_docker
+          command: sudo apt-get install docker -y && sudo touch /etc/docker/daemon.json && sudo echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json && sudo systemctl start docker
+      #- setup_remote_docker
       - run: sudo echo "Hello world"
 
       - deploy:
           name: Build and push Docker image
           command: |
             TAG="0.0.${CIRCLE_BUILD_NUM}"
-            docker build -t $REGISTRY_URL/$COMPTIA_PROJECT:$TAG .
-            docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
-            docker push $REGISTRY_URL/$COMPTIA_PROJECT:$TAG
+            sudo docker build -t $REGISTRY_URL/$COMPTIA_PROJECT:$TAG .
+            sudo docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
+            sudo docker push $REGISTRY_URL/$COMPTIA_PROJECT:$TAG
 
 
 

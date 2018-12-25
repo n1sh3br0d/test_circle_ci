@@ -38,7 +38,7 @@ jobs:
 
       - run:
           name: Allow non-https connections
-          command: sudo echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json
+          command: sudo touch /etc/docker/daemon.json && sudo echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json
       - setup_remote_docker
       - run: sudo echo "Hello world"
 

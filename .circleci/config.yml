@@ -34,7 +34,7 @@ jobs:
       - run: npm run test
       - run:
           name: Allow non-https connections
-          command: sudo apt-get install docker -y && sudo mkdir /etc/docker/ && sudo touch /etc/docker/daemon.json && sudo echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json && sudo systemctl start docker
+          command: sudo su && apt-get install docker -y && mkdir /etc/docker/ && touch /etc/docker/daemon.json && echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json && systemctl start docker
       #- setup_remote_docker
       - run: sudo echo "Hello world"
 
@@ -42,9 +42,9 @@ jobs:
           name: Build and push Docker image
           command: |
             TAG="0.0.${CIRCLE_BUILD_NUM}"
-            sudo docker build -t $REGISTRY_URL/$COMPTIA_PROJECT:$TAG .
-            sudo docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
-            sudo docker push $REGISTRY_URL/$COMPTIA_PROJECT:$TAG
+            docker build -t $REGISTRY_URL/$COMPTIA_PROJECT:$TAG .
+            docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
+            docker push $REGISTRY_URL/$COMPTIA_PROJECT:$TAG
 
 
 

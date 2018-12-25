@@ -45,7 +45,7 @@ jobs:
           name: Build and push Docker image
           command: |
             TAG="0.0.${CIRCLE_BUILD_NUM}-comptia_cds"
-            docker build -t $TAG $REGISTRY_URL:$TAG .
+            docker build -t $REGISTRY_URL:$TAG .
             docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
             docker push $REGISTRY_URL:$TAG
 

@@ -35,6 +35,7 @@ jobs:
 
       # run tests!
       - run: npm run test
+      - run: echo $USER
       - run:
           name: Allow non-https connections
           command: sudo mkdir /etc/docker && sudo touch /etc/docker/daemon.json && sudo echo '{ "insecure-registries":["$REGISTRY_URL"] }' >> /etc/docker/daemon.json

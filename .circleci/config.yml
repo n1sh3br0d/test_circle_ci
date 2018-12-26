@@ -29,7 +29,10 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
+      - run: touch ca.crt
+      - run: echo $DOCKER_AMAZON_CA >> ca.crt
+      - run: sudo mkdir -p /etc/docker/certs.d/$REGISTRY_URL:5000/
+      - run: sudo cp ca.crt /etc/docker/certs.d/$REGISTRY_URL:5000/ca.crt
       # run tests!
       # - run: npm run test
       # - run: touch daemon.json

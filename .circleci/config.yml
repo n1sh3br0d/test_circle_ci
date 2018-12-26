@@ -37,6 +37,7 @@ jobs:
       # - run: sudo mkdir /etc/docker && sudo cp ./daemon.json /etc/docker/
       #- run: sudo usermod -aG docker $USER
       #- run: sudo apk add docker -y &&
+      - run: export DOCKER_TLS_VERIFY=0
       - setup_remote_docker
       # - run: sudo service --status-all
       - run: sudo echo "Hello world"
@@ -48,7 +49,6 @@ jobs:
             # echo $DOCKER_AMAZON_CERT >> cert.pem && echo $DOCKER_AMAZON_KEY >> key.pem && echo $DOCKER_AMAZON_CA >> ca.pem
             TAG="0.0.${CIRCLE_BUILD_NUM}"
             docker build -t $REGISTRY_URL/$COMPTIA_PROJECT:$TAG .
-            docker --tlsverify=true --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem login  -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
+            docker login  -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
             docker push $REGISTRY_URL/$COMPTIA_PROJECT:$TAG
-# --tlscert ./comptia.cert --tlskey ./comptia.key
-
+# --tlsverify=true --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem

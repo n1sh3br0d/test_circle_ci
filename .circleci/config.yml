@@ -49,8 +49,10 @@ jobs:
             # echo $DOCKER_AMAZON_CERT >> cert.pem && echo $DOCKER_AMAZON_KEY >> key.pem && echo $DOCKER_AMAZON_CA >> ca.pem
             TAG="0.0.${CIRCLE_BUILD_NUM}"
             docker build -t $REGISTRY_URL/$COMPTIA_PROJECT:$TAG .
+            touch ca.crt
+            echo $DOCKER_AMAZON_CA >> ca.crt
             sudo mkdir -p /etc/docker/certs.d/$REGISTRY_URL:5000/
-            sudo bash -c 'echo $DOCKER_AMAZON_CA > /etc/docker/certs.d/$REGISTRY_URL:5000/ca.crt'
+            sudo cp ca.crt /etc/docker/certs.d/$REGISTRY_URL:5000/ca.crt'
             docker login  -u $DOCKER_LOGIN -p $DOCKER_PASSWORD $REGISTRY_URL
             docker push $REGISTRY_URL/$COMPTIA_PROJECT:$TAG
 # --tlsverify=true --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem
